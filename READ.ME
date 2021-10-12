@@ -1,0 +1,20 @@
+select ct.table_catalog, ct.table_schema, ct.oid, ct.table_name, dt.description as table_description, ct.ordinal_position, ct.column_name, dc.description as column_description, ct.udt_name as data_type
+from
+    (select distinct cl.oid, t.schemaname, t.tablename, c.*
+        from pg_catalog.pg_class cl
+	    join pg_catalog.pg_namespace n on n.oid = cl.relnamespace --find schema
+	    join pg_catalog.pg_tables t on cl.relname = t.tablename and n.nspname = t.schemaname --join class to table
+	    join INFORMATION_SCHEMA.columns c on t.schemaname = c.table_schema and t.tablename = c.table_name
+	) ct --table and column information
+left join pg_description dc on dc.objoid = ct.oid and dc.objsubid = ct.ordinal_position --join column description
+left join pg_description dt on dt.objoid = ct.oid and dt.objsubid = 0 --join table description
+where ct.table_name in ('teacher_payouts_tranches', 'teacher_payouts_expenditures', 'teacher_payouts_expenditure_categories','teacher_payouts_payments')
+order by ct.table_schema, ct.table_name, ct.ordinal_position ;
+
+--------
+
+select tc.constraint_name, tc.constraint_type, tc.table_catalog, tc.table_schema, tc.table_name, kcu.column_name, kcu1.table_catalog as  table_catalog_2, kcu1.table_schema as table_schema_2, kcu1.table_name as table_name_2, kcu1.column_name as column_name_2
+FROM information_schema.table_constraints AS tc
+JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name AND tc.table_schema = kcu.table_schema and tc.table_name = kcu.table_name and tc.constraint_type in ('PRIMARY KEY', 'FOREIGN KEY')
+left join INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS as rc on rc.constraint_name = tc.constraint_name and rc.constraint_schema = tc.constraint_schema and rc.constraint_catalog = tc.constraint_catalog
+left join information_schema.key_column_usage as kcu1 on kcu1.constraint_catalog = rc.unique_constraint_catalog and kcu1.constraint_schema = rc.unique_constraint_schema and kcu1.constraint_name = rc.unique_constraint_name

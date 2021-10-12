@@ -1,0 +1,15 @@
+database,schema,table,table_description,ordinal_position,column,column_description,data_type,key,connection_name,ref_table,ref_column
+persons,persons,person_type,Типы клиентов,1,id,Идентификатор,int,PK,,,
+persons,persons,person_type,Типы клиентов,2,name,Наименование,string,,,,
+persons,persons,person_type,Типы клиентов,3,description,Описание,string,,,,
+persons,persons,persons,Клиенты,1,id,Идентификатор,int,PK,,,
+persons,persons,persons,Клиенты,2,first_name,Имя,string,,,,
+persons,persons,persons,Клиенты,3,last_name,Фамилия,string,,,,
+persons,persons,persons,Клиенты,4,person_type_id,Тип клиента,int,FK,,person_type,id
+persons,persons,phones,Телефоны,1,id,Идентификатор,int,PK,,,
+persons,persons,phones,Телефоны,2,phone,Телефонный номер,int,,,,
+persons,persons,phones,Телефоны,3,person_id,Клиент,int,FK,,persons,id
+persons,persons,phones,Телефоны,4,phone_type_id,Тип номера,int,FK,,phone_type,id
+persons,persons,phone_type,Типы номеров,1,id,Идентификатор,int,PK,,,
+persons,persons,phone_type,Типы номеров,2,name,Наименование,string,,,,
+persons,persons,phone_type,Типы номеров,3,description,Описание,string,,,,
