@@ -69,7 +69,7 @@ public class DtoMapper {
                                     && col.getTable().getName().equals(refTableName)
                             )
                             .findFirst()
-                            .get();
+                            .orElse(null);
 
                     return Connection.builder()
                             .column(column)

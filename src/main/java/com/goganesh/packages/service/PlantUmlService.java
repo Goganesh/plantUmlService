@@ -79,6 +79,9 @@ public class PlantUmlService {
                 .forEach(connection -> {
                     text.append(connection.getColumn().getTable().getName());
 
+                    if (connection.getRefColumn() == null)
+                        return;
+
                     if (connection.getColumn().getKey().equals("PK")){
                         text.append(" ||");
                     } else if (connection.getColumn().getKey().equals("FK")){
