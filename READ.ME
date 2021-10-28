@@ -18,3 +18,80 @@ FROM information_schema.table_constraints AS tc
 JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name AND tc.table_schema = kcu.table_schema and tc.table_name = kcu.table_name and tc.constraint_type in ('PRIMARY KEY', 'FOREIGN KEY')
 left join INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS as rc on rc.constraint_name = tc.constraint_name and rc.constraint_schema = tc.constraint_schema and rc.constraint_catalog = tc.constraint_catalog
 left join information_schema.key_column_usage as kcu1 on kcu1.constraint_catalog = rc.unique_constraint_catalog and kcu1.constraint_schema = rc.unique_constraint_schema and kcu1.constraint_name = rc.unique_constraint_name
+
+--------
+
+SELECT ct.table_catalog AS DATABASE,
+       ct.table_schema AS SCHEMA,
+       ct.oid,
+       ct.table_name AS TABLE,
+       dt.description AS table_description,
+       ct.ordinal_position,
+       ct.column_name AS COLUMN,
+       dc.description AS column_description,
+       ct.udt_name AS data_type,
+       links.constraint_name AS CONNECTION_NAME,
+       CASE
+           WHEN (links.constraint_type = 'PRIMARY KEY') THEN 'PK'
+           WHEN (links.constraint_type = 'FOREIGN KEY') THEN 'FK'
+       END AS KEY,
+       links.table_catalog_2 AS ref_database,
+       links.table_schema_2 AS ref_schema,
+       links.table_name_2 AS ref_table,
+       links.column_name_2 AS ref_column
+FROM
+  (SELECT DISTINCT cl.oid,
+                   t.schemaname,
+                   t.tablename,
+                   c.*
+   FROM pg_catalog.pg_class cl
+   JOIN pg_catalog.pg_namespace n ON n.oid = cl.relnamespace --find schema
+
+   JOIN pg_catalog.pg_tables t ON cl.relname = t.tablename
+   AND n.nspname = t.schemaname --join class to table
+
+   JOIN INFORMATION_SCHEMA.columns c ON t.schemaname = c.table_schema
+   AND t.tablename = c.table_name) ct --table and column information
+LEFT JOIN pg_description dc ON dc.objoid = ct.oid
+AND dc.objsubid = ct.ordinal_position --join column description
+LEFT JOIN pg_description dt ON dt.objoid = ct.oid
+AND dt.objsubid = 0 --join table description
+LEFT JOIN
+  (SELECT tc.constraint_name,
+          tc.constraint_type,
+          tc.table_catalog,
+          tc.table_schema,
+          tc.table_name,
+          kcu.column_name,
+          kcu1.table_catalog AS table_catalog_2,
+          kcu1.table_schema AS table_schema_2,
+          kcu1.table_name AS table_name_2,
+          kcu1.column_name AS column_name_2
+   FROM information_schema.table_constraints AS tc
+   JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name
+   AND tc.table_schema = kcu.table_schema
+   AND tc.table_name = kcu.table_name
+   AND tc.constraint_type in ('PRIMARY KEY',
+                              'FOREIGN KEY')
+   LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS rc ON rc.constraint_name = tc.constraint_name
+   AND rc.constraint_schema = tc.constraint_schema
+   AND rc.constraint_catalog = tc.constraint_catalog
+   LEFT JOIN information_schema.key_column_usage AS kcu1 ON kcu1.constraint_catalog = rc.unique_constraint_catalog
+   AND kcu1.constraint_schema = rc.unique_constraint_schema
+   AND kcu1.constraint_name = rc.unique_constraint_name
+   WHERE tc.table_catalog in ('rsidata')
+     AND tc.table_schema in ('public')
+     AND tc.table_name in ('register_card',
+                           'request',
+                           'change_record') ) links ON links.table_catalog = ct.table_catalog
+AND links.table_schema = ct.table_schema
+AND links.table_name = ct.table_name
+AND ct.column_name = links.column_name
+WHERE ct.table_name in ('register_card',
+                        'request',
+                        'change_record')
+  AND ct.table_catalog in ('rsidata')
+  AND ct.table_schema in ('public')
+ORDER BY ct.table_schema,
+         ct.table_name,
+         ct.ordinal_position
