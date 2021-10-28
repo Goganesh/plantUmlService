@@ -51,7 +51,6 @@ public class CSVCommandController {
             @ShellOption(value = {"-P", "--path"}, help = "path to source template directory", arity = 1) String sourceDirectory,
             @ShellOption(value = {"-D", "--delimiter"}, help = "csv delimiter", arity = 1, defaultValue = ",") char delimiter) throws IOException
     {
-        System.out.println(sourceDirectory);
         String tablesPath = sourceDirectory +File.separator + CSV_TABLE_NAME;
 
         List<TemplateDto> templateDtos = csvReaderService.readCsv(tablesPath, delimiter, TemplateDto.class);
