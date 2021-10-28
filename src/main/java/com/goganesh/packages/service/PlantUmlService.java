@@ -76,10 +76,10 @@ public class PlantUmlService {
 
         connections.stream()
                 .forEach(connection -> {
-                    text.append(connection.getColumn().getTable().getName());
-
                     if (connection.getRefColumn() == null)
                         return;
+
+                    text.append(connection.getColumn().getTable().getName());
 
                     if (connection.getColumn().getKey().equals("PK")){
                         text.append(" ||");
