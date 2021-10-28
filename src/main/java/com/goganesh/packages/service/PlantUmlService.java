@@ -20,9 +20,13 @@ public class PlantUmlService {
                         "\n" +
                         "' avoid problems with angled crows feet\n" +
                         "skinparam linetype ortho" + System.lineSeparator());
+        erdPlantUmlText.append(System.lineSeparator());
 
         erdPlantUmlText.append(getTablesPlantUmlText(columns));
+        erdPlantUmlText.append(System.lineSeparator());
+
         erdPlantUmlText.append(getConnectionPlantUmlText(connections));
+        erdPlantUmlText.append(System.lineSeparator());
         
         erdPlantUmlText.append("@enduml");
         return erdPlantUmlText.toString();
