@@ -13,7 +13,7 @@ import java.util.*;
 
 @ShellComponent
 @AllArgsConstructor
-@ShellCommandGroup(value = "erd com.goganesh.packages.model by postgres connection")
+@ShellCommandGroup(value = "erd by postgresql connection")
 public class PostgresCommandController {
 
     private final DBService dbService;
