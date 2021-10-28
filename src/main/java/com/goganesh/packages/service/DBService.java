@@ -1,6 +1,6 @@
-package service;
+package com.goganesh.packages.service;
 
-import model.dto.TemplateDto;
+import com.goganesh.packages.model.dto.TemplateDto;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;

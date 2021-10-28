@@ -1,15 +1,14 @@
-package controller;
+package com.goganesh.packages.controller;
 
 import lombok.AllArgsConstructor;
-import model.Column;
-import model.Connection;
-import model.Table;
-import model.dto.TemplateDto;
+import com.goganesh.packages.model.Column;
+import com.goganesh.packages.model.Connection;
+import com.goganesh.packages.model.dto.TemplateDto;
 import org.springframework.shell.standard.*;
-import service.CsvReaderService;
-import service.DtoMapper;
-import service.FileWriterService;
-import service.PlantUmlService;
+import com.goganesh.packages.service.CsvReaderService;
+import com.goganesh.packages.service.DtoMapper;
+import com.goganesh.packages.service.FileWriterService;
+import com.goganesh.packages.service.PlantUmlService;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -18,7 +17,7 @@ import java.util.List;
 
 @ShellComponent
 @AllArgsConstructor
-@ShellCommandGroup(value = "erd model from csv")
+@ShellCommandGroup(value = "erd com.goganesh.packages.model from csv")
 public class CSVCommandController {
 
     private static final String CSV_TABLE_NAME = "template.csv";
@@ -42,7 +41,7 @@ public class CSVCommandController {
         return CSV_TABLE_NAME + " download to " + targetDirectory;
     }
 
-    @ShellMethod(value = "Generate text for plantuml erd model from csv template\n" +
+    @ShellMethod(value = "Generate text for plantuml erd com.goganesh.packages.model from csv template\n" +
             "\t\t\tCommand examples:\n" +
             "\t\t\tcsv /Users/georgijbasiladze/Desktop/src\n" +
             "\t\t\tc -P /Users/georgijbasiladze/Desktop/src\n" +

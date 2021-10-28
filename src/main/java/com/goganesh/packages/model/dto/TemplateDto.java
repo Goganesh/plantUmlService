@@ -1,4 +1,4 @@
-package model.dto;
+package com.goganesh.packages.model.dto;
 
 import com.opencsv.bean.CsvBindByName;
 import lombok.Data;

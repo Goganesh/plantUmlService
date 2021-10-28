@@ -1,8 +1,8 @@
-package service;
+package com.goganesh.packages.service;
 
-import model.Connection;
-import model.Column;
-import model.Table;
+import com.goganesh.packages.model.Connection;
+import com.goganesh.packages.model.Column;
+import com.goganesh.packages.model.Table;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;

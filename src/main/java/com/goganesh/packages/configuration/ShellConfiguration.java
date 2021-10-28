@@ -1,4 +1,4 @@
-package configuration;
+package com.goganesh.packages.configuration;
 
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
@@ -10,6 +10,6 @@ import org.springframework.shell.jline.PromptProvider;
 public class ShellConfiguration {
     @Bean
     public PromptProvider myPromptProvider() {
-        return () -> new AttributedString("plantuml-generator:>", AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW));
+        return () -> new AttributedString("plant-uml-generator:>", AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW));
     }
 }

@@ -1,9 +1,9 @@
-package service;
+package com.goganesh.packages.service;
 
-import model.Column;
-import model.Connection;
-import model.Table;
-import model.dto.TemplateDto;
+import com.goganesh.packages.model.Column;
+import com.goganesh.packages.model.Connection;
+import com.goganesh.packages.model.Table;
+import com.goganesh.packages.model.dto.TemplateDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

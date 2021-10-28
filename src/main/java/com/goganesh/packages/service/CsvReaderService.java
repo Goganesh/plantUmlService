@@ -1,4 +1,4 @@
-package service;
+package com.goganesh.packages.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.springframework.stereotype.Service;

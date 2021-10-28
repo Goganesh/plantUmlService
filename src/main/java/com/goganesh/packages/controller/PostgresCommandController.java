@@ -1,11 +1,11 @@
-package controller;
+package com.goganesh.packages.controller;
 
 import lombok.AllArgsConstructor;
-import model.dto.TemplateDto;
+import com.goganesh.packages.model.dto.TemplateDto;
 import org.springframework.shell.standard.*;
-import service.DBService;
-import service.DtoMapper;
-import service.PlantUmlService;
+import com.goganesh.packages.service.DBService;
+import com.goganesh.packages.service.DtoMapper;
+import com.goganesh.packages.service.PlantUmlService;
 
 import java.io.IOException;
 import java.sql.*;
@@ -13,7 +13,7 @@ import java.util.*;
 
 @ShellComponent
 @AllArgsConstructor
-@ShellCommandGroup(value = "erd model by postgres connection")
+@ShellCommandGroup(value = "erd com.goganesh.packages.model by postgres connection")
 public class PostgresCommandController {
 
     private final DBService dbService;
@@ -40,7 +40,7 @@ public class PostgresCommandController {
             "order by ct.table_schema, ct.table_name, ct.ordinal_position";
 
     @ShellMethod(
-            value = "Generate text for plantuml erd model from postgres db connection\n" +
+            value = "Generate text for plantuml erd com.goganesh.packages.model from postgres db connection\n" +
                     "\t\t\tCommand Examples:\n" +
                     "\t\t\tp -C localhost:3456 -B mybase -U admin -P qwerty -T /Users/georgijbasiladze/Desktop/src\n" +
                     "\t\t\tpostgres --connection localhost:3456 --base mybase --user admin --passworf qwerty --target /Users/georgijbasiladze/Desktop/src\n",
