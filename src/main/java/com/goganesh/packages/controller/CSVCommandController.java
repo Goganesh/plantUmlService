@@ -5,7 +5,7 @@ import com.goganesh.packages.model.Column;
 import com.goganesh.packages.model.Connection;
 import com.goganesh.packages.model.dto.TemplateDto;
 import org.springframework.shell.standard.*;
-import com.goganesh.packages.service.CsvReaderService;
+import com.goganesh.packages.service.CsvFileReaderService;
 import com.goganesh.packages.service.DtoMapper;
 import com.goganesh.packages.service.FileWriterService;
 import com.goganesh.packages.service.PlantUmlService;
@@ -23,7 +23,7 @@ public class CSVCommandController {
     private static final String CSV_TABLE_NAME = "template.csv";
     private static final String TEMPLATE_DIRECTORY = "classpath:templates/erd/";
 
-    private final CsvReaderService csvReaderService;
+    private final CsvFileReaderService csvFileReaderService;
     private final PlantUmlService plantUmlService;
     private final DtoMapper dtoMapper;
     private final FileWriterService fileWriterService;
@@ -53,7 +53,7 @@ public class CSVCommandController {
     {
         String tablesPath = sourceDirectory +File.separator + CSV_TABLE_NAME;
 
-        List<TemplateDto> templateDtos = csvReaderService.readCsv(tablesPath, delimiter, TemplateDto.class);
+        List<TemplateDto> templateDtos = csvFileReaderService.readCsv(tablesPath, delimiter, TemplateDto.class);
 
         List<Column> columns = dtoMapper.getColumnsByDtos(templateDtos);
         List<Connection> connections = dtoMapper.getConnectionsByDto(templateDtos, columns);
