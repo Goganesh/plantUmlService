@@ -41,7 +41,7 @@ public class CSVCommandController {
         return CSV_TABLE_NAME + " download to " + targetDirectory;
     }
 
-    @ShellMethod(value = "Generate text for plantuml erd com.goganesh.packages.model from csv template\n" +
+    @ShellMethod(value = "Generate text for plantuml erd from csv template\n" +
             "\t\t\tCommand examples:\n" +
             "\t\t\tcsv /Users/georgijbasiladze/Desktop/src\n" +
             "\t\t\tc -P /Users/georgijbasiladze/Desktop/src\n" +
