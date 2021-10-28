@@ -13,7 +13,7 @@ order by ct.table_schema, ct.table_name, ct.ordinal_position ;
 
 --------
 
-select tc.constraint_name, tc.constraint_type, tc.table_catalog, tc.table_schema, tc.table_name, kcu.column_name, kcu1.table_catalog as  table_catalog_2, kcu1.table_schema as table_schema_2, kcu1.table_name as table_name_2, kcu1.column_name as column_name_2
+select distinct tc.constraint_name, tc.constraint_type, tc.table_catalog, tc.table_schema, tc.table_name, kcu.column_name, kcu1.table_catalog as  table_catalog_2, kcu1.table_schema as table_schema_2, kcu1.table_name as table_name_2, kcu1.column_name as column_name_2
 FROM information_schema.table_constraints AS tc
 JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name AND tc.table_schema = kcu.table_schema and tc.table_name = kcu.table_name and tc.constraint_type in ('PRIMARY KEY', 'FOREIGN KEY')
 left join INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS as rc on rc.constraint_name = tc.constraint_name and rc.constraint_schema = tc.constraint_schema and rc.constraint_catalog = tc.constraint_catalog
@@ -57,7 +57,7 @@ AND dc.objsubid = ct.ordinal_position --join column description
 LEFT JOIN pg_description dt ON dt.objoid = ct.oid
 AND dt.objsubid = 0 --join table description
 LEFT JOIN
-  (SELECT tc.constraint_name,
+  (SELECT distinct tc.constraint_name,
           tc.constraint_type,
           tc.table_catalog,
           tc.table_schema,
