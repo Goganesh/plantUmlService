@@ -17,7 +17,7 @@ import java.util.List;
 
 @ShellComponent
 @AllArgsConstructor
-@ShellCommandGroup(value = "erd from csv template")
+@ShellCommandGroup(value = "Генерация скрипта ERD PlantUml по шаблону CSV")
 public class CSVCommandController {
 
     private static final String CSV_TABLE_NAME = "template.csv";
@@ -28,28 +28,35 @@ public class CSVCommandController {
     private final DtoMapper dtoMapper;
     private final FileWriterService fileWriterService;
 
-    @ShellMethod(value = "Get CSV template for erd generation\n" +
-            "\t\t\tCommand examples:\n" +
-            "\t\t\tct /Users/georgijbasiladze/Desktop/src\n" +
-            "\t\t\tcsv-template -T /Users/georgijbasiladze/Desktop/src\n",
-            key = {"ct", "csv-template"})
+    @ShellMethod(value = "Получить CSV шаблон для генерации скрипта ERD PlantUml\n" +
+            "\t\t\tПример для Windows:\n" +
+            "\t\t\terd-template 'C:\\\\Users\\\\gbasiladze\\\\Desktop'\n" +
+            "\t\t\terd-template -T 'C:\\\\Users\\\\gbasiladze\\\\Desktop'\n" +
+            "\t\t\tПример для Mac:\n" +
+            "\t\t\terd-template /Users/georgijbasiladze/Desktop/src\n" +
+            "\t\t\terd-template -T /Users/georgijbasiladze/Desktop/src'\n",
+            key = {"erd-template"})
     public String getCsvTemplate(
-            @ShellOption(value = {"-T", "--target"},help = "path to target directory for template", arity = 1) String targetDirectory) throws IOException
+            @ShellOption(value = {"-T"},help = "путь для создания файла шаблона", arity = 1) String targetDirectory) throws IOException
     {
         fileWriterService.writeFile(TEMPLATE_DIRECTORY + CSV_TABLE_NAME, targetDirectory + File.separator + CSV_TABLE_NAME);
 
-        return CSV_TABLE_NAME + " download to " + targetDirectory;
+        return "Шаблон " + CSV_TABLE_NAME + " загружен в директорию " + targetDirectory;
     }
 
-    @ShellMethod(value = "Generate text for plantuml erd from csv template\n" +
-            "\t\t\tCommand examples:\n" +
-            "\t\t\tcsv /Users/georgijbasiladze/Desktop/src\n" +
-            "\t\t\tc -P /Users/georgijbasiladze/Desktop/src\n" +
-            "\t\t\tcsv --path /Users/georgijbasiladze/Desktop/src --delimiter ,\n",
-            key = {"c", "csv"})
+    @ShellMethod(value = "Генерация скрипта ERD PlantUml по CSV шаблону\n" +
+            "\t\t\tПримеры для Windows:\n" +
+            "\t\t\terd 'C:\\\\Users\\\\gbasiladze\\\\Desktop'\n" +
+            "\t\t\terd -P 'C:\\\\Users\\\\gbasiladze\\\\Desktop'\n" +
+            "\t\t\tcsv -P 'C:\\\\Users\\\\gbasiladze\\\\Desktop' -D ,\n" +
+            "\t\t\tПримеры для Mac:\n" +
+            "\t\t\terd /Users/georgijbasiladze/Desktop/src\n" +
+            "\t\t\terd -P /Users/georgijbasiladze/Desktop/src\n" +
+            "\t\t\tcsv -P /Users/georgijbasiladze/Desktop/src -D ,\n",
+            key = {"erd"})
     public String callCsvMode(
-            @ShellOption(value = {"-P", "--path"}, help = "path to source template directory", arity = 1) String sourceDirectory,
-            @ShellOption(value = {"-D", "--delimiter"}, help = "csv delimiter", arity = 1, defaultValue = ",") char delimiter) throws IOException
+            @ShellOption(value = {"-P"}, help = "путь к шаблону CSV", arity = 1) String sourceDirectory,
+            @ShellOption(value = {"-D"}, help = "разделитель в CSV", arity = 1, defaultValue = ",") char delimiter) throws IOException
     {
         String tablesPath = sourceDirectory +File.separator + CSV_TABLE_NAME;
 

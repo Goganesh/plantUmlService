@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-@ShellComponent
+//@ShellComponent
 @AllArgsConstructor
 @ShellCommandGroup(value = "erd by postgresql connection")
 public class PostgresCommandController {
