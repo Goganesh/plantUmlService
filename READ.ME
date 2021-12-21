@@ -21,7 +21,9 @@ left join information_schema.key_column_usage as kcu1 on kcu1.constraint_catalog
 
 --------
 
-SELECT ct.table_catalog AS DATABASE,
+SELECT 
+	--concat('comment on column ', ct.table_schema, '.', ct.table_name, '.', ct.column_name, ' IS ''', dc.description, ''''),
+	ct.table_catalog AS DATABASE,
        ct.table_schema AS SCHEMA,
        ct.oid,
        ct.table_name AS TABLE,
@@ -46,10 +48,8 @@ FROM
                    c.*
    FROM pg_catalog.pg_class cl
    JOIN pg_catalog.pg_namespace n ON n.oid = cl.relnamespace --find schema
-
    JOIN pg_catalog.pg_tables t ON cl.relname = t.tablename
    AND n.nspname = t.schemaname --join class to table
-
    JOIN INFORMATION_SCHEMA.columns c ON t.schemaname = c.table_schema
    AND t.tablename = c.table_name) ct --table and column information
 LEFT JOIN pg_description dc ON dc.objoid = ct.oid
